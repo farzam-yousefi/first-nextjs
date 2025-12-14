@@ -18,9 +18,10 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
   const [state, formAction] = useActionState(createInvoice, initialState);
   
   console.log( "state is ",state);
- 
+  const formResetKey=state.defaultValues ? JSON.stringify(state.defaultValues) : "initial";
   return (
-   <form action={formAction}>
+  //  <form action={formAction} >
+       <form action={formAction} key={formResetKey}> 
   <div className="rounded-md bg-gray-50 p-4 md:p-6">
     {/* Customer Name */}
     <div className="mb-4">

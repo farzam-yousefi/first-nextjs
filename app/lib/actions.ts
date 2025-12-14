@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { CustomerField, InvoiceForm } from "./definitions";
 import { fetchCustomerById } from "./data";
+import { AuthError } from "next-auth";
+import { signIn } from "@/auth";
 export type updateState = {
   errors?: {
     customerId?: string[];
@@ -144,4 +146,23 @@ export async function deleteInvoice(id: string) {
     DELETE FROM invoices  WHERE id=${id}
   `;
   revalidatePath("/dashboard/invoices");
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
 }

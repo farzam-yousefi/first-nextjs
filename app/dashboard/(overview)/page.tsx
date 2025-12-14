@@ -10,7 +10,10 @@ import { lusitana } from "@/app/ui/fonts";
 // } from "../../lib/data";
 
 import { CardsSkeleton, RevenueChartSkeleton } from "@/app/ui/skeletons";
-
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: 'Dashboard',
+};
 export default async function Page() {
  
   // const latestInvoices = await fetchLatestInvoices();
